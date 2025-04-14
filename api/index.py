@@ -374,6 +374,18 @@ async def create_project(project: ProjectCreate):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.get("/api/projects")
+async def get_projects():
+    try:
+        # Get all projects from database
+        projects = await projects_collection.find().to_list(None)
+        # Convert ObjectId to string for JSON serialization
+        for project in projects:
+            project["_id"] = str(project["_id"])
+        return projects
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
