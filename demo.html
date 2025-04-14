@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI制片管理系统</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: #6c5ce7;
+            --secondary-color: #a29bfe;
+            --dark-color: #2d3436;
+            --light-color: #f5f6fa;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        .sidebar {
+            background-color: var(--dark-color);
+            color: white;
+            height: 100vh;
+            position: fixed;
+            padding-top: 20px;
+        }
+        
+        .sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 5px;
+            border-radius: 5px;
+            padding: 10px 15px;
+        }
+        
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .sidebar .nav-link i {
+            margin-right: 10px;
+        }
+        
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            transition: transform 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .ai-processing-card {
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .ai-suggestion {
+            background-color: #f0f5ff;
+            border-left: 3px solid var(--primary-color);
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .progress-thin {
+            height: 6px;
+        }
+        
+        .scene-card {
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .scene-card:hover {
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .character-tag {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        
+        .prop-tag {
+            display: inline-block;
+            background-color: #74b9ff;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        
+        .ai-badge {
+            background-color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 侧边栏导航 -->
+            <div class="col-md-2 sidebar d-none d-md-block">
+                <div class="text-center mb-4">
+                    <h4><i class="bi bi-camera-reels"></i> AI制片系统</h4>
+                </div>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"><i class="bi bi-house-door"></i> 项目概览</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="bi bi-upload"></i> 剧本上传</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="bi bi-people"></i> 角色分析</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="bi bi-building"></i> 场景分解</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="bi bi-calendar-event"></i> 拍摄排期</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="bi bi-collection"></i> 服化道总表</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="bi bi-gear"></i> 系统设置</a>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- 主内容区 -->
+            <div class="col-md-10 main-content">
+                <h2 class="mb-4">项目概览 - <span class="text-primary">《消失的记忆》</span></h2>
+                
+                <!-- 项目状态卡片 -->
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card ai-processing-card">
+                            <div class="card-body">
+                                <h5 class="card-title">剧本解析状态</h5>
+                                <div class="d-flex justify-content-between mb-3">
+                                    <span class="text-muted">AI分析进度</span>
+                                    <span class="text-primary">85%</span>
+                                </div>
+                                <div class="progress progress-thin mb-3">
+                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 85%"></div>
+                                </div>
+                                <div class="ai-suggestion">
+                                    <h6><i class="bi bi-lightbulb"></i> AI建议</h6>
+                                    <p class="small">检测到3个场景可能需要特殊道具，请检查确认。</p>
+                                    <button class="btn btn-sm btn-primary">查看详情</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">元素统计</h5>
+                                <div class="row text-center">
+                                    <div class="col-4">
+                                        <h3 class="text-primary">24</h3>
+                                        <p class="text-muted small">场景</p>
+                                    </div>
+                                    <div class="col-4">
+                                        <h3 class="text-success">12</h3>
+                                        <p class="text-muted small">角色</p>
+                                    </div>
+                                    <div class="col-4">
+                                        <h3 class="text-warning">56</h3>
+                                        <p class="text-muted small">道具</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">最近活动</h5>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item border-0 px-0 py-2 small">
+                                        <i class="bi bi-check-circle-fill text-success"></i> 场景5-8分析完成
+                                        <span class="text-muted float-end">2分钟前</span>
+                                    </li>
+                                    <li class="list-group-item border-0 px-0 py-2 small">
+                                        <i class="bi bi-exclamation-triangle-fill text-warning"></i> 角色"李医生"需要确认
+                                        <span class="text-muted float-end">15分钟前</span>
+                                    </li>
+                                    <li class="list-group-item border-0 px-0 py-2 small">
+                                        <i class="bi bi-upload text-primary"></i> 剧本文件已上传
+                                        <span class="text-muted float-end">1小时前</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 场景分析部分 -->
+                <div class="row mt-4">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h5 class="card-title mb-0">场景分析</h5>
+                                    <div>
+                                        <button class="btn btn-sm btn-outline-primary me-2">
+                                            <i class="bi bi-filter"></i> 筛选
+                                        </button>
+                                        <button class="btn btn-sm btn-primary">
+                                            <i class="bi bi-download"></i> 导出
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>场景编号</th>
+                                                <th>场景描述</th>
+                                                <th>角色</th>
+                                                <th>道具</th>
+                                                <th>AI评估</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="scene-card" data-bs-toggle="modal" data-bs-target="#sceneDetailModal">
+                                                <td>SC-05</td>
+                                                <td>医院病房 - 夜</td>
+                                                <td>
+                                                    <span class="character-tag">张明</span>
+                                                    <span class="character-tag">李医生</span>
+                                                </td>
+                                                <td>
+                                                    <span class="prop-tag">病床</span>
+                                                    <span class="prop-tag">医疗设备</span>
+                                                </td>
+                                                <td>
+                                                    <span class="badge ai-badge">难度: 中</span>
+                                                </td>
+                                            </tr>
+                                            <tr class="scene-card" data-bs-toggle="modal" data-bs-target="#sceneDetailModal">
+                                                <td>SC-12</td>
+                                                <td>咖啡厅 - 日</td>
+                                                <td>
+                                                    <span class="character-tag">张明</span>
+                                                    <span class="character-tag">王丽</span>
+                                                </td>
+                                                <td>
+                                                    <span class="prop-tag">咖啡杯</span>
+                                                    <span class="prop-tag">笔记本</span>
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-success">难度: 低</span>
+                                                </td>
+                                            </tr>
+                                            <tr class="scene-card" data-bs-toggle="modal" data-bs-target="#sceneDetailModal">
+                                                <td>SC-18</td>
+                                                <td>暴雨街道 - 夜</td>
+                                                <td>
+                                                    <span class="character-tag">张明</span>
+                                                    <span class="character-tag">神秘人</span>
+                                                </td>
+                                                <td>
+                                                    <span class="prop-tag">雨伞</span>
+                                                    <span class="prop-tag">公文包</span>
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-warning text-dark">需要确认</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination justify-content-center">
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#" tabindex="-1">上一页</a>
+                                        </li>
+                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">下一页</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">角色关系图</h5>
+                                <div class="text-center py-4">
+                                    <img src="https://via.placeholder.com/300x200?text=角色关系图" alt="角色关系图" class="img-fluid rounded">
+                                </div>
+                                <div class="ai-suggestion">
+                                    <h6><i class="bi bi-lightbulb"></i> AI分析</h6>
+                                    <p class="small">主角"张明"与"李医生"的互动场景较多，建议优先安排这两位演员的档期。</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card mt-4">
+                            <div class="card-body">
+                                <h5 class="card-title">资源预警</h5>
+                                <div class="alert alert-warning small">
+                                    <i class="bi bi-exclamation-triangle-fill"></i> 检测到3个场景需要相同医疗道具，可能存在冲突。
+                                </div>
+                                <div class="alert alert-info small">
+                                    <i class="bi bi-info-circle-fill"></i> "暴雨街道"场景需要特殊天气效果，建议提前准备。
+                                </div>
+                                <button class="btn btn-sm btn-outline-primary w-100 mt-2">
+                                    查看完整资源报告
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 场景详情模态框 -->
+    <div class="modal fade" id="sceneDetailModal" tabindex="-1" aria-labelledby="sceneDetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="sceneDetailModalLabel">场景详情 - SC-05</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>基础信息</h6>
+                            <ul class="list-group list-group-flush mb-3">
+                                <li class="list-group-item px-0 py-2">
+                                    <strong>场景编号:</strong> SC-05
+                                </li>
+                                <li class="list-group-item px-0 py-2">
+                                    <strong>地点:</strong> 医院病房
+                                </li>
+                                <li class="list-group-item px-0 py-2">
+                                    <strong>时间:</strong> 夜
+                                </li>
+                                <li class="list-group-item px-0 py-2">
+                                    <strong>预计时长:</strong> 2分30秒
+                                </li>
+                            </ul>
+                            
+                            <h6>角色列表</h6>
+                            <div class="mb-3">
+                                <span class="badge bg-primary me-2">张明</span>
+                                <span class="badge bg-primary">李医生</span>
+                            </div>
+                            
+                            <h6>道具需求</h6>
+                            <div class="mb-3">
+                                <span class="badge bg-info text-dark me-2">病床</span>
+                                <span class="badge bg-info text-dark">医疗设备</span>
+                                <span class="badge bg-info text-dark">输液架</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>AI分析</h6>
+                            <div class="card bg-light mb-3">
+                                <div class="card-body">
+                                    <h6 class="card-title"><i class="bi bi-lightbulb text-warning"></i> 拍摄建议</h6>
+                                    <p class="card-text small">此场景需要特殊灯光布置以模拟夜间病房效果，建议准备蓝色滤镜和柔光箱。</p>
+                                </div>
+                            </div>
+                            
+                            <div class="card bg-light mb-3">
+                                <div class="card-body">
+                                    <h6 class="card-title"><i class="bi bi-exclamation-triangle text-danger"></i> 潜在问题</h6>
+                                    <p class="card-text small">医疗设备需要专业指导，建议聘请医疗顾问确保准确性。</p>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="sceneNotes" class="form-label">备注</label>
+                                <textarea class="form-control" id="sceneNotes" rows="3" placeholder="添加您的备注..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary">保存更改</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 这里可以添加交互逻辑
+        document.addEventListener('DOMContentLoaded', function() {
+            // 示例：点击场景卡片时显示加载状态
+            const sceneCards = document.querySelectorAll('.scene-card');
+            sceneCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    // 在实际应用中，这里会加载场景的详细数据
+                    console.log('加载场景数据:', this.querySelector('td').textContent);
+                });
+            });
+            
+            // 模拟AI处理进度更新
+            const progressBar = document.querySelector('.progress-bar');
+            let progress = 85;
+            const progressInterval = setInterval(() => {
+                progress += 1;
+                progressBar.style.width = progress + '%';
+                progressBar.textContent = progress + '%';
+                
+                if (progress >= 100) {
+                    clearInterval(progressInterval);
+                    document.querySelector('.ai-suggestion .btn').classList.remove('btn-primary');
+                    document.querySelector('.ai-suggestion .btn').classList.add('btn-success');
+                    document.querySelector('.ai-suggestion .btn').textContent = '分析完成';
+                }
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

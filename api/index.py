@@ -46,6 +46,13 @@ class BudgetItem(BaseModel):
 class BudgetUpdate(BaseModel):
     items: List[BudgetItem]
 
+class ProjectCreate(BaseModel):
+    title: str
+    description: str
+    status: str = "planning"  # planning, in_progress, completed
+    created_at: str = None
+    updated_at: str = None
+
 @app.get("/")
 async def root():
     return {"message": "AI Film Production Management System API"}
@@ -339,3 +346,34 @@ async def update_project_budget(project_id: str, budget_update: BudgetUpdate):
         return {"message": "Budget updated successfully"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/projects", response_model=Dict[str, Any])
+async def create_project(project: ProjectCreate):
+    try:
+        # Set timestamps
+        now = datetime.utcnow().isoformat()
+        project_dict = project.dict()
+        project_dict["created_at"] = now
+        project_dict["updated_at"] = now
+        project_dict["activity_log"] = [{
+            "action": "project_created",
+            "timestamp": now,
+            "details": f"Project '{project.title}' created"
+        }]
+        
+        # Insert project into database
+        result = await projects_collection.insert_one(project_dict)
+        
+        # Return created project
+        created_project = await projects_collection.find_one({"_id": result.inserted_id})
+        if created_project:
+            created_project["_id"] = str(created_project["_id"])  # Convert ObjectId to string
+            return created_project
+        
+        raise HTTPException(status_code=500, detail="Failed to create project")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
