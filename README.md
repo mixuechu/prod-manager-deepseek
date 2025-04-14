@@ -1,78 +1,132 @@
-<p align="center">
-  <a href="https://nextjs-flask-starter.vercel.app/">
-    <img src="https://assets.vercel.com/image/upload/v1588805858/repositories/vercel/logo.png" height="96">
-    <h3 align="center">Next.js Flask Starter</h3>
-  </a>
-</p>
+# AI 制片管理系统
 
-<p align="center">Simple Next.js boilerplate that uses <a href="https://flask.palletsprojects.com/">Flask</a> as the API backend.</p>
+基于人工智能的影视制片管理系统，通过 AI 技术辅助剧本分析、场景管理和制片流程优化。
 
-<br/>
+## 功能特性
 
-## Introduction
+### 已实现功能
 
-This is a hybrid Next.js + Python app that uses Next.js as the frontend and Flask as the API backend. One great use case of this is to write Next.js apps that use Python AI libraries on the backend.
+1. **项目管理**
+   - 创建和查看项目
+   - 项目基本信息管理（标题、描述、日期等）
+   - 项目状态跟踪
+   - 团队成员管理
 
-## How It Works
+2. **场景管理**
+   - AI 剧本分析
+   - 场景列表展示
+   - 场景详细信息查看和编辑
+   - 场景状态追踪
 
-The Python/Flask server is mapped into to Next.js app under `/api/`.
+3. **统计分析**
+   - 项目进度统计
+   - 角色出场统计
+   - 道具使用统计
+   - 场景分布分析
 
-This is implemented using [`next.config.js` rewrites](https://github.com/vercel/examples/blob/main/python/nextjs-flask/next.config.js) to map any request to `/api/:path*` to the Flask API, which is hosted in the `/api` folder.
+### 计划功能
 
-On localhost, the rewrite will be made to the `127.0.0.1:5328` port, which is where the Flask server is running.
+1. **拍摄进度管理**
+   - 场景拍摄状态追踪
+   - 拍摄时间安排
+   - 进度报告生成
 
-In production, the Flask server is hosted as [Python serverless functions](https://vercel.com/docs/concepts/functions/serverless-functions/runtimes/python) on Vercel.
+2. **资源管理**
+   - 道具库管理
+   - 演员档期管理
+   - 场地资源管理
 
-## Demo
+3. **数据导出**
+   - 拍摄计划导出
+   - 统计报告导出
+   - 场景细节表导出
 
-https://nextjs-flask-starter.vercel.app/
+## 技术栈
 
-## Deploy Your Own
+### 后端
+- FastAPI
+- MongoDB
+- OpenAI GPT-4
+- Python 3.13
+- Uvicorn
 
-You can clone & deploy it to Vercel with one click:
+### 前端
+- Next.js
+- React
+- Tailwind CSS
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?demo-title=Next.js%20Flask%20Starter&demo-description=Simple%20Next.js%20boilerplate%20that%20uses%20Flask%20as%20the%20API%20backend.&demo-url=https%3A%2F%2Fnextjs-flask-starter.vercel.app%2F&demo-image=%2F%2Fimages.ctfassets.net%2Fe5382hct74si%2F795TzKM3irWu6KBCUPpPz%2F44e0c6622097b1eea9b48f732bf75d08%2FCleanShot_2023-05-23_at_12.02.15.png&project-name=Next.js%20Flask%20Starter&repository-name=nextjs-flask-starter&repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fexamples%2Ftree%2Fmain%2Fpython%2Fnextjs-flask&from=vercel-examples-repo)
+## 项目结构
 
-## Developing Locally
+```
+api/
+├── config/          # 配置文件
+├── models/          # 数据模型
+├── routes/          # API路由
+├── services/        # 业务逻辑
+└── main.py         # 应用入口
 
-You can clone & create this repo with the following command
-
-```bash
-npx create-next-app nextjs-flask --example "https://github.com/vercel/examples/tree/main/python/nextjs-flask"
+app/                # 前端应用
+├── components/     # React组件
+├── pages/         # 页面
+└── styles/        # 样式文件
 ```
 
-## Getting Started
+## 安装和运行
 
-First, install the dependencies:
+### 环境要求
+- Python 3.13+
+- Node.js 18+
+- MongoDB
 
+### 后端设置
+
+1. 安装依赖：
+```bash
+pip install fastapi uvicorn python-multipart motor openai
+```
+
+2. 配置环境变量：
+- 在 `api/config/settings.py` 中配置 MongoDB 连接和 OpenAI API 密钥
+
+3. 启动服务器：
+```bash
+python -m uvicorn api.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+### 前端设置
+
+1. 安装依赖：
 ```bash
 npm install
-# or
-yarn
-# or
-pnpm install
 ```
 
-Then, run the development server:
-
+2. 启动开发服务器：
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## API 文档
 
-The Flask server will be running on [http://127.0.0.1:5328](http://127.0.0.1:5328) – feel free to change the port in `package.json` (you'll also need to update it in `next.config.js`).
+启动服务器后访问：
+- Swagger UI: http://localhost:8000/docs
+- ReDoc: http://localhost:8000/redoc
 
-## Learn More
+## 开发状态
 
-To learn more about Next.js, take a look at the following resources:
+当前版本: 1.0.0-alpha
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-- [Flask Documentation](https://flask.palletsprojects.com/en/1.1.x/) - learn about Flask features and API.
+- [x] 基础项目架构
+- [x] 数据模型设计
+- [x] API 端点实现
+- [x] AI 剧本分析集成
+- [ ] 完整的前端界面
+- [ ] 用户认证系统
+- [ ] 完整的测试覆盖
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## 贡献
+
+欢迎提交 Issue 和 Pull Request。
+
+## 许可证
+
+MIT License
